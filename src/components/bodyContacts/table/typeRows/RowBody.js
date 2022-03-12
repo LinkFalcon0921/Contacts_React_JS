@@ -1,7 +1,7 @@
 import React from "react";
 
 function RowBody(props) {
-    const {name , l_name, tel} = props;
+  const { name, l_name, tel } = props;
 
   return (
     <tr className="contact-item">

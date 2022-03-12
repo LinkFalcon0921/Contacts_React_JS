@@ -1,5 +1,6 @@
-class Contacts {
+export default class Contacts {
   site = "http://www.raydelto.org/agenda.php";
+  items = [];
   //Object en
   contact = {
     name: "",
@@ -27,44 +28,43 @@ class Contacts {
     },
     get() {
       return {
-        name: this.name,
+        nombre: this.name,
         apellido: this.l_name,
         telefono: this.telPhone,
       };
     },
   };
-  sendContact(name, lName, tels) {
+  async sendContact(name, lName, tels) {
     //Set the values
     const nContact = this.contact;
     nContact.name = name;
     nContact.l_name = lName;
-    nContact.tel = tels;
+    nContact.telPhone = tels;
 
     if (nContact.tel == undefined) {
       return false;
     }
 
-    fetch(this.site, {
+    const response = await fetch(this.site, {
       //Send the data
       method: "POST",
       body: JSON.stringify(nContact.get()),
-    }).then(function (contactos) {
-      if (contactos.ok) {
-        //send the info
-        return true;
-      } else {
-        return false;
-      }
     });
+    return response.ok;
+  }
+  async getContact(){
+    const contactos = await fetch(this.site);
+    const contact = await contactos.json();
+    return Array.from(contact);
   }
 }
 
-const ls = new Contacts();
+// const ls = new Contacts();
 
-let value = ls.contact;
+// let value = ls.contact;
 
-// value.name = "100";
-// value.l_name = "100";
-// value.telPhone = "8092122133928133";
+// // value.name = "100";
+// // value.l_name = "100";
+// // value.telPhone = "8092122133928133";
 
-console.log(value.telPhone);
+// console.log(value.get());
